@@ -13,17 +13,17 @@ The Fiji macro orchestrating all these steps is available at the [Fiji folder](.
 We trained an auto-context Ilastik model to identify fibrillated structures in an image. To optimize the identification, three independent models were developed for each type of fibrillated structure: for bundles inside and outside a gland, and for the fibers at the nano-fibrlis stage. For each model the training used at least 3 representative images (available in the [Ilastik folder](../../tree/main/Ilastik)).
 
 The Ilastik version used to train and run the models is 1.3.3post3
-## Nano-fibrils (Mainfibers) and nano-bundles analysis (Connecting fibers)
+## Nano-fibrils (Main fibers) and nano-bundles analysis (Connecting fibers)
 Here we analyse all the fiber segments in the image to get their width and their type (either "Main" or "Connecting"). We also gather some overall information (e.g., Min/Max/Mean Main/Connecting fiber thickness), To do that:
 1. The image is converted to mask by running the Ilastik model to identify the fibers in it
 ![IlastikMask](https://github.com/WIS-MICC-CellObservatory/Silk-threads-analysis/assets/64706090/f8c05ee3-c0bf-45ee-a03a-c7b440433725)
 2. Than we run "Local thickness" on the image that creates an image where every pixel is replaced by its thickness (the radios of the maximal circle containing the pixel where the circle is fully resides in the image foreground)
 ![local thickness](https://github.com/WIS-MICC-CellObservatory/Silk-threads-analysis/assets/64706090/2da3f950-d96c-429c-892e-066ba2be4e73)
-3. The Ilastik image is also used to create a skelaton image where the identified fibers are skelatonized 
+3. The Ilastik image is also used to create a skeleton image where the identified fibers are skeletonized 
 ![skelaton](https://github.com/WIS-MICC-CellObservatory/Silk-threads-analysis/assets/64706090/ff5f3963-2e96-4c24-bfb9-9b4a7d7984a4)
-4. We then segmentaize the skelaton by removing the skelaton intersctions.
-5. We then go over each segment in the segmentaize skelaton, determine whether it is "main fiber" or "connecting fiber" according to its orientation and then get its width information using the local thickness image.
-6. To get the length of each segment we count the number of pixels in it. The length of the "connecting fibers", substract from this length, the width of the "Main fibers" to which it is connectd.
+4. We then segmentize the skeleton by removing the skeleton intersections.
+5. We then go over each segment in the segmentize skeleton, determine whether it is "main fiber" or "connecting fiber" according to its orientation and then get its width information using the local thickness image.
+6. To get the length of each segment we count the number of pixels in it. In case of the length of the "connecting fibers", we subtract from this count, the width of the "Main fibers" to which it is connected.
 ## Semi-automated-analysis
 Here we specifically analyse the line rois provided by the user in the Roi file (see [Appendix](##Appendix-ROI)). These ROIs mark “Connecting fibers” of a specific "ladder" (consecutive fibers between two “Main fibers”). For each “Connecting fiber” in the ladder we calculate its width (min, max and mean) and its distance to the next connecting fiber in the ladder (min, max and mean). To get this information we do the following:
 1. We use the local thickness image (see [Nano-fibrils...](#Nano-fibrils-(Main-fibers)-and-nano-bundles-analysis-(Connecting-fibers)) to extract for each ROI, in each ladder, in each region of interest, its min, max and mean width.
@@ -31,7 +31,7 @@ Here we specifically analyse the line rois provided by the user in the Roi file 
 ![distance transform](https://github.com/WIS-MICC-CellObservatory/Silk-threads-analysis/assets/64706090/c04b95fc-d760-445f-a52d-d13a075ce8d7)
 5. Then, we find the fiber that its mid coordinates are the closest to that fiber. looking at the pixels of that fiber in the distance transform image gives us the desired distance information.
 
-All measurements are scaled to microns using the "Scale" ROI provided by the user(see [Appendix](##Appendix-ROI))
+All measurements are scaled to microns using the "Scale" ROI provided by the user (see [Appendix](##Appendix-ROI))
 ## Appendix-ROI
 The ROI file provided by the user has the Fiji ROI file format and must be stored on disk at the same folder where the related image resides. Following Fiji's convention, the ROI file name should be identical to the image file name with "_RoiSet" suffix and a ".zip" extension.
 
