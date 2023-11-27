@@ -12,8 +12,8 @@ We trained an auto-context Ilastik model to identify fibrillated structures in a
 ## Nano-fibrils (Main fibers) and nano-bundles analysis (Connecting fibers)
 
 
-All measurments are scaled ti micrones using the "Scale" roi see [Appendix](#Appendix - Roi file)
-## Appendix - Roi file
+All measurments are scaled ti micrones using the "Scale" roi see [Appendix](#Appendix)
+# Appendix
 The roi file provided by the user has the Fiji roi file format and must be stored on disk at the same folder where the related image resides. Following Fiji's convention, the roi file name should be identical to the image file name with "_RoiSet" suffix and a ".zip" extention.
 
 The ROIs within the roi file follow the following naming convention:
