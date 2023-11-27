@@ -16,14 +16,21 @@ The Ilastik version used to train and run the models is 1.3.3post3
 ## Nano-fibrils (Main fibers) and nano-bundles analysis (Connecting fibers)
 1. The image is converted to mask by running the Ilastik model to identify the fibers in it
 ![IlastikMask](https://github.com/WIS-MICC-CellObservatory/Silk-threads-analysis/assets/64706090/f8c05ee3-c0bf-45ee-a03a-c7b440433725)
-3. "Local thickness" on the image creates an image where every pixel is replaced by thickness (the radios of the maximal circle containing the pixel the fully esides in the image foreground)
+
+## Semi-automated analysis
+Here we specificaly analyze the line rois provided by the user in the Roi file (see [Appendix](##Appendix-ROI)). These ROIs mark connecting fibers of a specific "ladder" (quensecutive connecting fibers between two specific main fibers). For each connecting fiber in the ladder we calculate its width (min, max and mean) and its distance to the next connecting fiber in the lader (min, max and mean distance). To get theis information we do the following:
+1. first we run "Local thickness" on the image that creates an image where every pixel is replaced by its thickness (the radios of the maximal circle containing the pixel where the circle is fully resides in the image foreground)
 ![local thickness](https://github.com/WIS-MICC-CellObservatory/Silk-threads-analysis/assets/64706090/2da3f950-d96c-429c-892e-066ba2be4e73)
-All measurments are scaled to micrones using the "Scale" roi see [Appendix](##Appendix-ROI)
+2. Then, for each roi in each ladder in each region of interest we extract its mean, max and mean width
+3. To get the distance information between each connecting fiber to the next fiber we first create a mask containing only that fiber and run a distance transform on it getting the distance of any aother pixel in the image to that fiber.
+4. Then, we find the fiber that its mid coordinates are the closest to that fiber. looking at the pixels of that image in the distance transform image gives us the desired information.
+
+All measurments are scaled to micrones using the "Scale" roi provided by the user(see [Appendix](##Appendix-ROI))
 ## Appendix-ROI
 The roi file provided by the user has the Fiji roi file format and must be stored on disk at the same folder where the related image resides. Following Fiji's convention, the roi file name should be identical to the image file name with "_RoiSet" suffix and a ".zip" extention.
 
 The ROIs within the roi file follow the following naming convention:
 1. "Scale" region: A line ROI that its length is equal to 200 microns - Use to scale the image
 2. "RM" prefix indicates a region of interest where automatic fiber analysis is to be conducted
-3. "RC" prefix indicates a region of interest containg specific fibers to be further analyzed.
+3. "RC" prefix indicates a region of interest containg a ladder - set of connecting fibers that connects to main fibers.
 4. All other rois in the file are line rois containd within an "RC" roi marking the fibers of interest to be further analyzed.
