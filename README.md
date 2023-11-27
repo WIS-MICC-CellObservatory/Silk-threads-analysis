@@ -23,7 +23,8 @@ Here we specificaly analyze the line rois provided by the user in the Roi file (
 ![local thickness](https://github.com/WIS-MICC-CellObservatory/Silk-threads-analysis/assets/64706090/2da3f950-d96c-429c-892e-066ba2be4e73)
 2. Then, for each roi in each ladder in each region of interest we extract its mean, max and mean width
 3. To get the distance information between each connecting fiber to the next fiber we first create a mask containing only that fiber and run a distance transform on it getting the distance of any aother pixel in the image to that fiber.
-4. Then, we find the fiber that its mid coordinates are the closest to that fiber. looking at the pixels of that image in the distance transform image gives us the desired information.
+![distance transform](https://github.com/WIS-MICC-CellObservatory/Silk-threads-analysis/assets/64706090/c04b95fc-d760-445f-a52d-d13a075ce8d7)
+5. Then, we find the fiber that its mid coordinates are the closest to that fiber. looking at the pixels of that fiber in the distance transform image gives us the desired distance information.
 
 All measurments are scaled to micrones using the "Scale" roi provided by the user(see [Appendix](##Appendix-ROI))
 ## Appendix-ROI
