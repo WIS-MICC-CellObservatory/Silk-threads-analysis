@@ -13,7 +13,7 @@ The Fiji macro orchestrating all these steps is available at the [Fiji folder](.
 We trained an auto-context Ilastik model to identify fibrillated structures in an image. To optimize the identification, three independent models were developed for each type of fibrillated structure: for bundles inside and outside a gland, and for the fibers at the nano-fibrlis stage. For each model the training used at least 3 representative images (available in the [Ilastik folder](../../tree/main/Ilastik)).
 
 The Ilastik version used to train and run the models is 1.3.3post3
-## Nano-fibrils (Main fibers) and nano-bundles analysis (Connecting fibers)
+## Nano-fibrils-(Main-fibers)-and-nano-bundles-analysis-(Connecting-fibers)
 Here we analyse all the fiber segments in the image to get their width and their type (either "Main" or "Connecting"). We also gather some overall information (e.g., Min/Max/Mean Main/Connecting fiber thickness), To do that:
 1. The image is converted to mask by running the Ilastik model to identify the fibers in it
 ![IlastikMask](https://github.com/WIS-MICC-CellObservatory/Silk-threads-analysis/assets/64706090/f8c05ee3-c0bf-45ee-a03a-c7b440433725)
@@ -22,7 +22,7 @@ Here we analyse all the fiber segments in the image to get their width and their
 
 ## Semi-automated-analysis
 Here we specifically analyse the line rois provided by the user in the Roi file (see [Appendix](##Appendix-ROI)). These ROIs mark “Connecting fibers” of a specific "ladder" (consecutive fibers between two “Main fibers”). For each “Connecting fiber” in the ladder we calculate its width (min, max and mean) and its distance to the next connecting fiber in the ladder (min, max and mean). To get this information we do the following:
-1. We use the local thickness image (see [Nano-fibrils](#Nano-fibrils) to extract for each ROI in each ladder in each region of interest its min, max and mean width.
+1. We use the local thickness image (see [Nano-fibrils](#Nano-fibrils-(Main-fibers)-and-nano-bundles-analysis-(Connecting-fibers)) to extract for each ROI in each ladder in each region of interest its min, max and mean width.
 3. To get the distance information between each connecting fiber to the next fiber we first create a mask containing only that fiber, and run a distance transform on it, getting the distance of any other pixel in the image to that fiber.
 ![distance transform](https://github.com/WIS-MICC-CellObservatory/Silk-threads-analysis/assets/64706090/c04b95fc-d760-445f-a52d-d13a075ce8d7)
 5. Then, we find the fiber that its mid coordinates are the closest to that fiber. looking at the pixels of that fiber in the distance transform image gives us the desired distance information.
